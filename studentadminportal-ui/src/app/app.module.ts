@@ -50,12 +50,14 @@ import { StudentsComponent } from './students/students.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ViewStudentsComponent } from './students/view-students/view-students.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
-    StudentsComponent
+    StudentsComponent,
+    ViewStudentsComponent
   ],
   imports: [
     FormsModule,
