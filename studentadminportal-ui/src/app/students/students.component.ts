@@ -23,7 +23,7 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit(): void {
     // fetch students
-    this.studentService.getStudent()
+    this.studentService.getStudents()
     .subscribe(
       (successResponse) => {
         this.students = successResponse;
