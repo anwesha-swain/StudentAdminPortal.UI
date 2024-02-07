@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StudentService } from '../student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from '../../models/ui-models/student.model';
 import { GenderService } from '../../services/gender.service';
 import { Gender } from '../../models/ui-models/gender.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-view-students',
@@ -37,6 +38,7 @@ export class ViewStudentsComponent implements OnInit {
   displayProfileImageUrl = '';
 
   genderList: Gender[] = [];
+  @ViewChild('studentDetailsForm') studentDetailsForm?: NgForm;
 
   constructor(private readonly studentService: StudentService, private readonly route: ActivatedRoute,
     private readonly genderService: GenderService, private snackBar: MatSnackBar, private router: Router) {}
@@ -81,7 +83,8 @@ export class ViewStudentsComponent implements OnInit {
   }
 
   onUpdate(): void {
-    //call student service to update student
+    if(this.studentDetailsForm?.form.valid) {
+      //call student service to update student
     this.studentService.updateStudent(this.student.id, this.student)
     .subscribe(
       (successResponse) => {
@@ -90,8 +93,10 @@ export class ViewStudentsComponent implements OnInit {
       },
       (errorResponse) => {
         //log it
+        console.log(errorResponse);
       }
     );
+    }
   }
 
   onDelete(): void {
@@ -107,12 +112,15 @@ export class ViewStudentsComponent implements OnInit {
       },
       (errorResponse) => {
         //log
+        console.log(errorResponse);
       }
     );
   }
 
   onAdd(): void {
-    this.studentService.addStudent(this.student)
+    if(this.studentDetailsForm?.form.valid) {
+      //submit form to api
+      this.studentService.addStudent(this.student)
     .subscribe(
       (successResponse) => {
         this.snackBar.open('Student added successfully', undefined, { duration: 2000 });
@@ -123,8 +131,10 @@ export class ViewStudentsComponent implements OnInit {
       },
       (errorResponse) => {
         //log
+        console.log(errorResponse);
       }
     );
+    }
   }
 
   uploadImage(event: any): void {
